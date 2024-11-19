@@ -64,6 +64,10 @@ function blob_fixup() {
 LEGACY_MIFARE_READER=1
 EOF
             ;;
+        vendor/etc/init/init_thermal-engine.rc)
+            [ "$2" = "" ] && return 0
+            sed -i '/^#service/,/^$/ s/^#//' "${2}"
+            ;;
         *)
             return 1
 	    ;;

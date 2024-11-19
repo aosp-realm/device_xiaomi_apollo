@@ -1382,7 +1382,7 @@ vendor/lib64/vendor.qti.hardware.limits@1.0.so
 vendor/bin/mi_thermald|e995fe8bddc257a28c9266ebd0d548e53e2714c9
 vendor/bin/thermal-engine|f0d8db5cc6870a1db91897307cb42e5b2e0b8d0c
 vendor/etc/init/init.mi_thermald.rc|6505d89e19957888612d89f6769585a7d26af080
-vendor/etc/init/init_thermal-engine.rc|18ecd3b7618e278465cd0a9d2bf180c3f7bd020e
+vendor/etc/init/init_thermal-engine.rc|18ecd3b7618e278465cd0a9d2bf180c3f7bd020e|bfb44787a43663c2cd40b1fa84906f8adb5ce1e8
 vendor/etc/perf/thermalboost.conf|27861af0b10ee3d6ee7d1918039858dcebfcdb18
 vendor/etc/thermal-4k.conf|d5362d435d94a1bc5cf1058c5132738c1e15f116
 vendor/etc/thermal-8k.conf|1248e42e6ee4ea547ff6f1fcbe25128add06b866
