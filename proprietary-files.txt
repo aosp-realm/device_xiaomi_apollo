@@ -1,4 +1,4 @@
-# All the pinned blobs from MIUI are extracted from apollo_global-user 12 SKQ1.211006.001 V14.0.1.0.SJDMIXM release-keys
+# All the pinned blobs from MIUI are extracted from apollo_global-user 12 RKQ1.211001.001 V14.0.4.0.SJDMIXM release-keys
 # All the unpinned blobs are from extracted from LA.UM.9.12.r1-14400-SMxx50.QSSI12.0
 
 # ADSPRPC
@@ -746,7 +746,7 @@ vendor/bin/hw/android.hardware.biometrics.fingerprint@2.1-service|73fc89b7cb632d
 vendor/etc/init/android.hardware.biometrics.fingerprint@2.1-service.rc|b7ebf3f899906f3d8bb4db8d957984a1773edd20
 vendor/etc/init/init_qfp_daemon.rc|512054af94f4f85dd9ec0e3820292f8bc67c2214
 vendor/etc/permissions/com.fingerprints.extension.xml|de711d8827e1d321b22b60fd75a204e8928f9c6d
-vendor/etc/permissions/qti_fingerprint_interface.xml|d3efc0abac8c064b3f8ccd783875b3d532972212
+vendor/etc/permissions/qti_fingerprint_interface.xml|226663934ad3c3c439629e7c10e9cab361fcce77
 -vendor/etc/vintf/manifest/android.hardware.biometrics.fingerprint@2.1-service.xml|49e82d6a43981e254d224dcc93b3ff27e0fb8407
 vendor/firmware/168_fingerprintRecord_RTP.bin|70bd3d9f0328a8119ab48ae283d88791e544d8f6
 vendor/firmware/fingerprint_record_rtp.bin|70bd3d9f0328a8119ab48ae283d88791e544d8f6
@@ -982,12 +982,12 @@ vendor/lib64/libkeymasterutils.so
 vendor/lib64/libqtikeymaster4.so
 vendor/lib64/libspcom.so
 
-# Mlipay
-vendor/bin/mlipayd@1.1
-vendor/etc/init/vendor.xiaomi.hardware.mlipay@1.1-service.rc
-vendor/etc/vintf/manifest/manifest_vendor.xiaomi.hardware.mlipay.xml
-vendor/lib64/libmlipay.so
-vendor/lib64/libmlipay@1.1.so
+# Mlipay - MIUI
+vendor/bin/mlipayd@1.1|9f41a62c62f584c4bf4a52115fc09678b163ad00
+vendor/etc/init/vendor.xiaomi.hardware.mlipay@1.1-service.rc|b5ab5bcd031fe4d9781b5911c0595eaeac8b80ea
+vendor/lib64/libmlipay.so|4ed4ee4879fcd71dda4a5425c71ec099231d122d
+vendor/lib64/libmlipay@1.1.so|c514d99addea1d94d24645b9560681b2a89b16fa
+vendor/etc/vintf/manifest/manifest_vendor.xiaomi.hardware.mlipay.xml|27aaea2ab58ace6555a634dc60ea062736342eb4
 
 # MDM - MIUI
 vendor/bin/ks|2bcc675556cd146a8a785145f9d2caa1b659b185
@@ -1349,15 +1349,13 @@ vendor/lib64/libspl.so
 vendor/lib64/libtrustedapploader.so
 vendor/lib64/libtzdrmgenprov.so
 
-# Soter
-vendor/bin/hw/vendor.qti.hardware.soter@1.0-service
-vendor/bin/vendor.qti.hardware.soter@1.0-provision
-vendor/etc/init/vendor.qti.hardware.soter@1.0-service.rc
-vendor/lib64/hw/vendor.qti.hardware.soter@1.0-impl.so
-vendor/lib64/vendor.qti.hardware.soter@1.0.so
-
-# Soter service (Tencent)
-vendor/app/SoterService/SoterService.apk
+# Soter - MIUI
+vendor/bin/hw/vendor.qti.hardware.soter@1.0-service|8e315a85eeeb94a51f1533c80212d2fc0ec88760
+vendor/bin/vendor.qti.hardware.soter@1.0-provision|7aaa89f3019cd1b1c93420075eb2b1ff3d159a2f
+vendor/etc/init/vendor.qti.hardware.soter@1.0-service.rc|76447a61ad5529949365eeb7e8ca000e48bd28ae
+vendor/lib64/hw/vendor.qti.hardware.soter@1.0-impl.so|b1bea56084e2530a437746674fc7fc0488ca0a2c
+vendor/lib64/vendor.qti.hardware.soter@1.0.so|145bd236ecb4ac294032b68497ec270163e63537
+-vendor/app/SoterService/SoterService.apk|2eac3d413bc9e94691d6909da6b27357d1c9463d
 
 # SS Restart
 vendor/bin/ssr_diag
