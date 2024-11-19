@@ -55,6 +55,15 @@ fi
 
 function blob_fixup() {
     case "${1}" in
+        vendor/etc/libnfc-nci.conf)
+            [ "$2" = "" ] && return 0
+            cat << EOF >> "${2}"
+# Mifare Tag implementation
+# 0: General implementation
+# 1: Legacy implementation
+LEGACY_MIFARE_READER=1
+EOF
+            ;;
         *)
             return 1
 	    ;;
