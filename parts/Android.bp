@@ -1,6 +1,5 @@
 //
 // Copyright (C) 2017-2021 The LineageOS Project
-//           (C) 2023 Paranoid Android
 //
 // SPDX-License-Identifier: Apache-2.0
 //
@@ -18,8 +17,4 @@ android_app {
     static_libs: [
         "co.aospa.resources",
     ],
-
-    optimize: {
-        proguard_flags_files: ["proguard.flags"],
-    },
 }

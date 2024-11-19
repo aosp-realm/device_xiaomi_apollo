@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.lineageos.settings.thermal;
 
 import android.annotation.Nullable;
@@ -26,6 +25,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -58,11 +58,10 @@ public class ThermalSettingsFragment extends PreferenceFragment
     private ApplicationsState mApplicationsState;
     private ApplicationsState.Session mSession;
     private ActivityFilter mActivityFilter;
-    private Map<String, ApplicationsState.AppEntry> mEntryMap =
-            new HashMap<String, ApplicationsState.AppEntry>();
+
+    private RecyclerView mAppsRecyclerView;
 
     private ThermalUtils mThermalUtils;
-    private RecyclerView mAppsRecyclerView;
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -84,7 +83,7 @@ public class ThermalSettingsFragment extends PreferenceFragment
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
         return inflater.inflate(R.layout.thermal_layout, container, false);
     }
 
@@ -97,11 +96,9 @@ public class ThermalSettingsFragment extends PreferenceFragment
         mAppsRecyclerView.setAdapter(mAllPackagesAdapter);
     }
 
-
     @Override
     public void onResume() {
         super.onResume();
-        getActivity().setTitle(getResources().getString(R.string.thermal_title));
         rebuild();
     }
 
@@ -183,10 +180,6 @@ public class ThermalSettingsFragment extends PreferenceFragment
         }
 
         mAllPackagesAdapter.setEntries(entries, sections, positions);
-        mEntryMap.clear();
-        for (ApplicationsState.AppEntry e : entries) {
-            mEntryMap.put(e.info.packageName, e);
-        }
     }
 
     private void rebuild() {
@@ -205,12 +198,8 @@ public class ThermalSettingsFragment extends PreferenceFragment
                 return R.drawable.ic_thermal_dialer;
             case ThermalUtils.STATE_GAMING:
                 return R.drawable.ic_thermal_gaming;
-            case ThermalUtils.STATE_NAVIGATION:
-                return R.drawable.ic_thermal_navigation;
             case ThermalUtils.STATE_STREAMING:
                 return R.drawable.ic_thermal_streaming;
-            case ThermalUtils.STATE_VIDEO:
-                return R.drawable.ic_thermal_video;
             case ThermalUtils.STATE_DEFAULT:
             default:
                 return R.drawable.ic_thermal_default;
@@ -223,7 +212,6 @@ public class ThermalSettingsFragment extends PreferenceFragment
         private ImageView icon;
         private View rootView;
         private ImageView stateIcon;
-        private ImageView touchIcon;
 
         private ViewHolder(View view) {
             super(view);
@@ -231,7 +219,6 @@ public class ThermalSettingsFragment extends PreferenceFragment
             this.mode = view.findViewById(R.id.app_mode);
             this.icon = view.findViewById(R.id.app_icon);
             this.stateIcon = view.findViewById(R.id.state);
-            this.touchIcon = view.findViewById(R.id.touch);
             this.rootView = view;
 
             view.setTag(this);
@@ -248,9 +235,7 @@ public class ThermalSettingsFragment extends PreferenceFragment
                 R.string.thermal_camera,
                 R.string.thermal_dialer,
                 R.string.thermal_gaming,
-                R.string.thermal_navigation,
-                R.string.thermal_streaming,
-                R.string.thermal_video
+                R.string.thermal_streaming
         };
 
         private ModeAdapter(Context context) {
@@ -284,6 +269,7 @@ public class ThermalSettingsFragment extends PreferenceFragment
 
             view.setText(items[position]);
             view.setTextSize(14f);
+
             return view;
         }
     }
@@ -312,26 +298,21 @@ public class ThermalSettingsFragment extends PreferenceFragment
         @NonNull
         @Override
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            return new ViewHolder(LayoutInflater.from(parent.getContext())
+            ViewHolder holder = new ViewHolder(LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.thermal_list_item, parent, false));
+            Context context = holder.itemView.getContext();
+            holder.mode.setAdapter(new ModeAdapter(context));
+            holder.mode.setOnItemSelectedListener(this);
+            return holder;
         }
 
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
-            Context context = holder.itemView.getContext();
             ApplicationsState.AppEntry entry = mEntries.get(position);
+
             if (entry == null) {
                 return;
             }
-
-            holder.mode.setAdapter(new ModeAdapter(context));
-            holder.mode.setOnItemSelectedListener(this);
-            holder.touchIcon.setOnClickListener(v -> {
-                Intent intent = new Intent(getActivity(), TouchSettingsActivity.class);
-                intent.putExtra("appName", entry.label);
-                intent.putExtra("packageName", entry.info.packageName);
-                startActivity(intent);
-            });
 
             holder.title.setText(entry.label);
             holder.title.setOnClickListener(v -> holder.mode.performClick());
@@ -340,17 +321,12 @@ public class ThermalSettingsFragment extends PreferenceFragment
             int packageState = mThermalUtils.getStateForPackage(entry.info.packageName);
             holder.mode.setSelection(packageState, false);
             holder.mode.setTag(entry);
-            if (packageState == ThermalUtils.STATE_BENCHMARK ||
-                packageState == ThermalUtils.STATE_GAMING) {
-                holder.touchIcon.setVisibility(View.VISIBLE);
-            } else {
-                holder.touchIcon.setVisibility(View.INVISIBLE);
-            }
             holder.stateIcon.setImageResource(getStateDrawable(packageState));
+            holder.stateIcon.setOnClickListener(v -> holder.mode.performClick());
         }
 
         private void setEntries(List<ApplicationsState.AppEntry> entries,
-                List<String> sections, List<Integer> positions) {
+                                List<String> sections, List<Integer> positions) {
             mEntries = entries;
             mSections = sections.toArray(new String[sections.size()]);
             mPositions = new int[positions.size()];
@@ -447,5 +423,14 @@ public class ThermalSettingsFragment extends PreferenceFragment
             }
             return show;
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            getActivity().onBackPressed();
+            return true;
+        }
+        return false;
     }
 }
